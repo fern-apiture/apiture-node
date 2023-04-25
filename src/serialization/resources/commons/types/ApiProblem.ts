@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const ApiProblem: core.serialization.ObjectSchema<serializers.ApiProblem.Raw, ApitureApi.ApiProblem> =
+export const ApiProblem: core.serialization.ObjectSchema<serializers.ApiProblem.Raw, Apiture.ApiProblem> =
     core.serialization.object({
         type: core.serialization.string().optional(),
         title: core.serialization.string().optional(),

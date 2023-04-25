@@ -3,14 +3,13 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const Transfer: core.serialization.ObjectSchema<serializers.Transfer.Raw, ApitureApi.Transfer> =
-    core.serialization
-        .object({})
-        .extend(core.serialization.lazyObject(async () => (await import("../../..")).AbstractBody))
-        .extend(core.serialization.lazyObject(async () => (await import("../../..")).TransferItem));
+export const Transfer: core.serialization.ObjectSchema<serializers.Transfer.Raw, Apiture.Transfer> = core.serialization
+    .object({})
+    .extend(core.serialization.lazyObject(async () => (await import("../../..")).AbstractBody))
+    .extend(core.serialization.lazyObject(async () => (await import("../../..")).TransferItem));
 
 export declare namespace Transfer {
     interface Raw extends serializers.AbstractBody.Raw, serializers.TransferItem.Raw {}

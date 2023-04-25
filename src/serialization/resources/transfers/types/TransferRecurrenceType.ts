@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransferRecurrenceType: core.serialization.Schema<
     serializers.TransferRecurrenceType.Raw,
-    ApitureApi.TransferRecurrenceType
+    Apiture.TransferRecurrenceType
 > = core.serialization.enum_(["fixed", "variable"]);
 
 export declare namespace TransferRecurrenceType {

@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const ProductReference: core.serialization.ObjectSchema<
     serializers.ProductReference.Raw,
-    ApitureApi.ProductReference
+    Apiture.ProductReference
 > = core.serialization.object({
     type: core.serialization.lazy(async () => (await import("../../..")).ProductType),
     code: core.serialization.string(),

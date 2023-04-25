@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransferTypeForDateRestrictions: core.serialization.Schema<
     serializers.TransferTypeForDateRestrictions.Raw,
-    ApitureApi.TransferTypeForDateRestrictions
+    Apiture.TransferTypeForDateRestrictions
 > = core.serialization.enum_([
     "internal",
     "ach",

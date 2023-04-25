@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransferDateRestrictionType: core.serialization.Schema<
     serializers.TransferDateRestrictionType.Raw,
-    ApitureApi.TransferDateRestrictionType
+    Apiture.TransferDateRestrictionType
 > = core.serialization.enum_(["pastDate", "pastCutoffTime", "riskRestricted", "holiday", "closure", "other"]);
 
 export declare namespace TransferDateRestrictionType {

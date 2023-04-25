@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const AccountJointOwner: core.serialization.ObjectSchema<
     serializers.AccountJointOwner.Raw,
-    ApitureApi.AccountJointOwner
+    Apiture.AccountJointOwner
 > = core.serialization
     .object({
         id: core.serialization.lazy(async () => (await import("../../..")).ReadOnlyResourceId),

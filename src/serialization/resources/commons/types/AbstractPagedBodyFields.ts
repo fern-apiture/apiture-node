@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const AbstractPagedBodyFields: core.serialization.ObjectSchema<
     serializers.AbstractPagedBodyFields.Raw,
-    ApitureApi.AbstractPagedBodyFields
+    Apiture.AbstractPagedBodyFields
 > = core.serialization.object({
     limit: core.serialization.number(),
     nextPageUrl: core.serialization.property("nextPage_url", core.serialization.string().optional()),

@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../../core";
 
 export const NewTransfer: core.serialization.Schema<
     serializers.NewTransfer.Raw,
-    Omit<ApitureApi.NewTransfer, "challenge">
+    Omit<Apiture.NewTransfer, "challenge">
 > = core.serialization
     .object({
         schedule: core.serialization.lazyObject(async () => (await import("../../../..")).TransferSchedule).optional(),

@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransactionCategories: core.serialization.ObjectSchema<
     serializers.TransactionCategories.Raw,
-    ApitureApi.TransactionCategories
+    Apiture.TransactionCategories
 > = core.serialization.object({
     items: core.serialization.list(
         core.serialization.lazyObject(async () => (await import("../../..")).TransactionCategory)

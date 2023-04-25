@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const MonetaryValue: core.serialization.Schema<serializers.MonetaryValue.Raw, ApitureApi.MonetaryValue> =
+export const MonetaryValue: core.serialization.Schema<serializers.MonetaryValue.Raw, Apiture.MonetaryValue> =
     core.serialization.string();
 
 export declare namespace MonetaryValue {

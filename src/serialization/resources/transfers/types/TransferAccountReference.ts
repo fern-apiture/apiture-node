@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransferAccountReference: core.serialization.ObjectSchema<
     serializers.TransferAccountReference.Raw,
-    ApitureApi.TransferAccountReference
+    Apiture.TransferAccountReference
 > = core.serialization.object({
     id: core.serialization.lazy(async () => (await import("../../..")).ResourceId),
     label: core.serialization.string().optional(),

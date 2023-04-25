@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const AccountLocation: core.serialization.Schema<serializers.AccountLocation.Raw, ApitureApi.AccountLocation> =
+export const AccountLocation: core.serialization.Schema<serializers.AccountLocation.Raw, Apiture.AccountLocation> =
     core.serialization.enum_(["internal", "external", "outside"]);
 
 export declare namespace AccountLocation {

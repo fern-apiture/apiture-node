@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const ProductType: core.serialization.Schema<serializers.ProductType.Raw, ApitureApi.ProductType> =
+export const ProductType: core.serialization.Schema<serializers.ProductType.Raw, Apiture.ProductType> =
     core.serialization.enum_(["savings", "checking", "cd", "ira", "loan", "creditCard"]);
 
 export declare namespace ProductType {

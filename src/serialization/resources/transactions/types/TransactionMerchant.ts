@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransactionMerchant: core.serialization.ObjectSchema<
     serializers.TransactionMerchant.Raw,
-    ApitureApi.TransactionMerchant
+    Apiture.TransactionMerchant
 > = core.serialization.object({
     name: core.serialization.string().optional(),
     websiteUrl: core.serialization.property("website_url", core.serialization.string().optional()),

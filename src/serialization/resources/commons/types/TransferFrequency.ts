@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransferFrequency: core.serialization.Schema<
     serializers.TransferFrequency.Raw,
-    ApitureApi.TransferFrequency
+    Apiture.TransferFrequency
 > = core.serialization.enum_([
     "once",
     "occasional",

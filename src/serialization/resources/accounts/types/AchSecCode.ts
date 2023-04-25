@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const AchSecCode: core.serialization.Schema<serializers.AchSecCode.Raw, ApitureApi.AchSecCode> =
+export const AchSecCode: core.serialization.Schema<serializers.AchSecCode.Raw, Apiture.AchSecCode> =
     core.serialization.enum_(["arc", "boc", "ccd", "cie", "ctx", "pop", "ppd", "rck", "tel", "web"]);
 
 export declare namespace AchSecCode {

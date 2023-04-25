@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const DateRange: core.serialization.Schema<serializers.DateRange.Raw, ApitureApi.DateRange> =
+export const DateRange: core.serialization.Schema<serializers.DateRange.Raw, Apiture.DateRange> =
     core.serialization.string();
 
 export declare namespace DateRange {

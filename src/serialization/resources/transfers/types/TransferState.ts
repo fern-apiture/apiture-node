@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const TransferState: core.serialization.Schema<serializers.TransferState.Raw, ApitureApi.TransferState> =
+export const TransferState: core.serialization.Schema<serializers.TransferState.Raw, Apiture.TransferState> =
     core.serialization.enum_([
         "unscheduled",
         "pendingApproval",

@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransactionSubType: core.serialization.Schema<
     serializers.TransactionSubType.Raw,
-    ApitureApi.TransactionSubType
+    Apiture.TransactionSubType
 > = core.serialization.enum_(["check", "other"]);
 
 export declare namespace TransactionSubType {

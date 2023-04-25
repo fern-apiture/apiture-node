@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const Account: core.serialization.ObjectSchema<serializers.Account.Raw, ApitureApi.Account> = core.serialization
+export const Account: core.serialization.ObjectSchema<serializers.Account.Raw, Apiture.Account> = core.serialization
     .object({
         allows: core.serialization.lazyObject(async () => (await import("../../..")).FullAccountPermissions),
         electronicStatements: core.serialization.boolean(),

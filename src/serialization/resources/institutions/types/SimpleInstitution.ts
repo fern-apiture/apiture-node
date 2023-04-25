@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const SimpleInstitution: core.serialization.ObjectSchema<
     serializers.SimpleInstitution.Raw,
-    ApitureApi.SimpleInstitution
+    Apiture.SimpleInstitution
 > = core.serialization.object({
     name: core.serialization.string(),
     address: core.serialization.lazyObject(async () => (await import("../../..")).Address),

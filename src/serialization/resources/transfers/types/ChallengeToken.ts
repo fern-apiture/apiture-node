@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const ChallengeToken: core.serialization.Schema<serializers.ChallengeToken.Raw, ApitureApi.ChallengeToken> =
+export const ChallengeToken: core.serialization.Schema<serializers.ChallengeToken.Raw, Apiture.ChallengeToken> =
     core.serialization.string();
 
 export declare namespace ChallengeToken {

@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransferSchedule: core.serialization.ObjectSchema<
     serializers.TransferSchedule.Raw,
-    ApitureApi.TransferSchedule
+    Apiture.TransferSchedule
 > = core.serialization.object({
     scheduledOn: core.serialization.string().optional(),
     recurrenceType: core.serialization.lazy(async () => (await import("../../..")).TransferRecurrenceType).optional(),

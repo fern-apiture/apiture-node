@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const MaskedAccountNumber: core.serialization.Schema<
     serializers.MaskedAccountNumber.Raw,
-    ApitureApi.MaskedAccountNumber
+    Apiture.MaskedAccountNumber
 > = core.serialization.string();
 
 export declare namespace MaskedAccountNumber {

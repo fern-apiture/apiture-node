@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const AchAccountRisk: core.serialization.Schema<serializers.AchAccountRisk.Raw, ApitureApi.AchAccountRisk> =
+export const AchAccountRisk: core.serialization.Schema<serializers.AchAccountRisk.Raw, Apiture.AchAccountRisk> =
     core.serialization.enum_(["early", "normal", "float", "sameDay"]);
 
 export declare namespace AchAccountRisk {

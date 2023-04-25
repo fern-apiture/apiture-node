@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const PositiveIntegerRange: core.serialization.Schema<
     serializers.PositiveIntegerRange.Raw,
-    ApitureApi.PositiveIntegerRange
+    Apiture.PositiveIntegerRange
 > = core.serialization.string();
 
 export declare namespace PositiveIntegerRange {

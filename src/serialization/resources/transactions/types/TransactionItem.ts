@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransactionItem: core.serialization.ObjectSchema<
     serializers.TransactionItem.Raw,
-    ApitureApi.TransactionItem
+    Apiture.TransactionItem
 > = core.serialization
     .object({})
     .extend(core.serialization.lazyObject(async () => (await import("../../..")).AbstractBody))

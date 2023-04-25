@@ -3,10 +3,10 @@
  */
 
 import * as errors from "../../../../errors";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 
-export class InternalServerError extends errors.ApitureApiError {
-    constructor(body: ApitureApi.ProblemResponse) {
+export class InternalServerError extends errors.ApitureError {
+    constructor(body: Apiture.ProblemResponse) {
         super({
             message: "InternalServerError",
             statusCode: 503,

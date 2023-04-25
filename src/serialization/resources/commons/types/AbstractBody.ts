@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const AbstractBody: core.serialization.ObjectSchema<serializers.AbstractBody.Raw, ApitureApi.AbstractBody> =
+export const AbstractBody: core.serialization.ObjectSchema<serializers.AbstractBody.Raw, Apiture.AbstractBody> =
     core.serialization.object({});
 
 export declare namespace AbstractBody {

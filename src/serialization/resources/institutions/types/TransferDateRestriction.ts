@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransferDateRestriction: core.serialization.ObjectSchema<
     serializers.TransferDateRestriction.Raw,
-    ApitureApi.TransferDateRestriction
+    Apiture.TransferDateRestriction
 > = core.serialization.object({
     occursOn: core.serialization.string(),
     reason: core.serialization.lazy(async () => (await import("../../..")).TransferDateRestrictionType),

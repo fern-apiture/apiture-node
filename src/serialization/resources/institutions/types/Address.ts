@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const Address: core.serialization.ObjectSchema<serializers.Address.Raw, ApitureApi.Address> = core.serialization
+export const Address: core.serialization.ObjectSchema<serializers.Address.Raw, Apiture.Address> = core.serialization
     .object({
         regionName: core.serialization.string().optional(),
         regionCode: core.serialization.string().optional(),

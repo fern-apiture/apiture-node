@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const TransferItem: core.serialization.ObjectSchema<serializers.TransferItem.Raw, ApitureApi.TransferItem> =
+export const TransferItem: core.serialization.ObjectSchema<serializers.TransferItem.Raw, Apiture.TransferItem> =
     core.serialization
         .object({
             id: core.serialization.lazy(async () => (await import("../../..")).ReadOnlyResourceId),

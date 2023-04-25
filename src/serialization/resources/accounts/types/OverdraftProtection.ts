@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const OverdraftProtection: core.serialization.ObjectSchema<
     serializers.OverdraftProtection.Raw,
-    ApitureApi.OverdraftProtection
+    Apiture.OverdraftProtection
 > = core.serialization
     .object({
         maximumOverdraftAccounts: core.serialization.number(),

@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransactionCategoryLabel: core.serialization.Schema<
     serializers.TransactionCategoryLabel.Raw,
-    ApitureApi.TransactionCategoryLabel
+    Apiture.TransactionCategoryLabel
 > = core.serialization.string();
 
 export declare namespace TransactionCategoryLabel {

@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const InstitutionId: core.serialization.Schema<serializers.InstitutionId.Raw, ApitureApi.InstitutionId> =
+export const InstitutionId: core.serialization.Schema<serializers.InstitutionId.Raw, Apiture.InstitutionId> =
     core.serialization.string();
 
 export declare namespace InstitutionId {

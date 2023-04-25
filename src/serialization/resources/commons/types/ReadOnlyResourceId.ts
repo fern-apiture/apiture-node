@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const ReadOnlyResourceId: core.serialization.Schema<
     serializers.ReadOnlyResourceId.Raw,
-    ApitureApi.ReadOnlyResourceId
+    Apiture.ReadOnlyResourceId
 > = core.serialization.lazy(async () => (await import("../../..")).ResourceId);
 
 export declare namespace ReadOnlyResourceId {

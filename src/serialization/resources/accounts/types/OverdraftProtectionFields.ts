@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const OverdraftProtectionFields: core.serialization.ObjectSchema<
     serializers.OverdraftProtectionFields.Raw,
-    ApitureApi.OverdraftProtectionFields
+    Apiture.OverdraftProtectionFields
 > = core.serialization.object({
     accounts: core.serialization.unknown().optional(),
 });

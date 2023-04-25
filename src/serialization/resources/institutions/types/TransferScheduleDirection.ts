@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransferScheduleDirection: core.serialization.Schema<
     serializers.TransferScheduleDirection.Raw,
-    ApitureApi.TransferScheduleDirection
+    Apiture.TransferScheduleDirection
 > = core.serialization.enum_(["debit", "credit", "both"]);
 
 export declare namespace TransferScheduleDirection {

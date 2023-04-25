@@ -3,10 +3,10 @@
  */
 
 import * as errors from "../../../../errors";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 
-export class TooManyRequests extends errors.ApitureApiError {
-    constructor(body: ApitureApi.ProblemResponse) {
+export class TooManyRequests extends errors.ApitureError {
+    constructor(body: Apiture.ProblemResponse) {
         super({
             message: "TooManyRequests",
             statusCode: 429,

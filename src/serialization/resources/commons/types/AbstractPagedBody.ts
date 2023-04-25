@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const AbstractPagedBody: core.serialization.ObjectSchema<
     serializers.AbstractPagedBody.Raw,
-    ApitureApi.AbstractPagedBody
+    Apiture.AbstractPagedBody
 > = core.serialization
     .object({
         start: core.serialization.string().optional(),

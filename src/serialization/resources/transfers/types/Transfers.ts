@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const Transfers: core.serialization.ObjectSchema<serializers.Transfers.Raw, ApitureApi.Transfers> =
+export const Transfers: core.serialization.ObjectSchema<serializers.Transfers.Raw, Apiture.Transfers> =
     core.serialization
         .object({
             items: core.serialization.list(

@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const InstitutionLookupResult: core.serialization.ObjectSchema<
     serializers.InstitutionLookupResult.Raw,
-    ApitureApi.InstitutionLookupResult
+    Apiture.InstitutionLookupResult
 > = core.serialization
     .object({
         found: core.serialization.boolean(),

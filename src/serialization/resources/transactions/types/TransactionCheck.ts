@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TransactionCheck: core.serialization.ObjectSchema<
     serializers.TransactionCheck.Raw,
-    ApitureApi.TransactionCheck
+    Apiture.TransactionCheck
 > = core.serialization.object({
     number: core.serialization.number(),
     imageFrontUrl: core.serialization.property("imageFront_url", core.serialization.string().optional()),

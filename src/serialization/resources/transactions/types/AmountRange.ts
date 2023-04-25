@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const AmountRange: core.serialization.Schema<serializers.AmountRange.Raw, ApitureApi.AmountRange> =
+export const AmountRange: core.serialization.Schema<serializers.AmountRange.Raw, Apiture.AmountRange> =
     core.serialization.string();
 
 export declare namespace AmountRange {

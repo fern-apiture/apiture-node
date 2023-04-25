@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const JointOwnerInvitationFields: core.serialization.ObjectSchema<
     serializers.JointOwnerInvitationFields.Raw,
-    ApitureApi.JointOwnerInvitationFields
+    Apiture.JointOwnerInvitationFields
 > = core.serialization.object({
     firstName: core.serialization.string(),
     lastName: core.serialization.string(),

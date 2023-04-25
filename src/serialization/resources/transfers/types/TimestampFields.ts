@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const TimestampFields: core.serialization.ObjectSchema<
     serializers.TimestampFields.Raw,
-    ApitureApi.TimestampFields
+    Apiture.TimestampFields
 > = core.serialization.object({
     createdAt: core.serialization.string().optional(),
     updatedAt: core.serialization.string().optional(),

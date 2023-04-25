@@ -3,13 +3,11 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const CheckNumberRange: core.serialization.Schema<
-    serializers.CheckNumberRange.Raw,
-    ApitureApi.CheckNumberRange
-> = core.serialization.lazy(async () => (await import("../../..")).PositiveIntegerRange);
+export const CheckNumberRange: core.serialization.Schema<serializers.CheckNumberRange.Raw, Apiture.CheckNumberRange> =
+    core.serialization.lazy(async () => (await import("../../..")).PositiveIntegerRange);
 
 export declare namespace CheckNumberRange {
     type Raw = serializers.PositiveIntegerRange.Raw;

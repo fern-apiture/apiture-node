@@ -3,22 +3,20 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const TransferFields: core.serialization.ObjectSchema<
-    serializers.TransferFields.Raw,
-    ApitureApi.TransferFields
-> = core.serialization.object({
-    amount: core.serialization.lazy(async () => (await import("../../..")).MonetaryValue).optional(),
-    sourceAccount: core.serialization
-        .lazyObject(async () => (await import("../../..")).TransferAccountReference)
-        .optional(),
-    targetAccount: core.serialization
-        .lazyObject(async () => (await import("../../..")).TransferAccountReference)
-        .optional(),
-    memo: core.serialization.string().optional(),
-});
+export const TransferFields: core.serialization.ObjectSchema<serializers.TransferFields.Raw, Apiture.TransferFields> =
+    core.serialization.object({
+        amount: core.serialization.lazy(async () => (await import("../../..")).MonetaryValue).optional(),
+        sourceAccount: core.serialization
+            .lazyObject(async () => (await import("../../..")).TransferAccountReference)
+            .optional(),
+        targetAccount: core.serialization
+            .lazyObject(async () => (await import("../../..")).TransferAccountReference)
+            .optional(),
+        memo: core.serialization.string().optional(),
+    });
 
 export declare namespace TransferFields {
     interface Raw {

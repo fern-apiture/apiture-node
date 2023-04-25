@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const AccountAllowsFilter: core.serialization.Schema<
     serializers.AccountAllowsFilter.Raw,
-    ApitureApi.AccountAllowsFilter
+    Apiture.AccountAllowsFilter
 > = core.serialization.enum_([
     "billPay",
     "transferFrom",

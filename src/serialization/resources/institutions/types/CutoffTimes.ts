@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const CutoffTimes: core.serialization.ObjectSchema<serializers.CutoffTimes.Raw, ApitureApi.CutoffTimes> =
+export const CutoffTimes: core.serialization.ObjectSchema<serializers.CutoffTimes.Raw, Apiture.CutoffTimes> =
     core.serialization
         .object({
             timeZoneId: core.serialization.lazy(async () => (await import("../../..")).TimeZoneId),

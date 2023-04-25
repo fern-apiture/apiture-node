@@ -3,20 +3,20 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const AccountBalance: core.serialization.ObjectSchema<
-    serializers.AccountBalance.Raw,
-    ApitureApi.AccountBalance
-> = core.serialization.object({
-    id: core.serialization.lazy(async () => (await import("../../..")).ReadOnlyResourceId),
-    available: core.serialization.lazy(async () => (await import("../../..")).CreditOrDebitValue).optional(),
-    current: core.serialization.lazy(async () => (await import("../../..")).CreditOrDebitValue).optional(),
-    updatedAt: core.serialization.lazy(async () => (await import("../../..")).ReadOnlyTimestamp).optional(),
-    currentWithPending: core.serialization.lazy(async () => (await import("../../..")).CreditOrDebitValue).optional(),
-    incomplete: core.serialization.boolean(),
-});
+export const AccountBalance: core.serialization.ObjectSchema<serializers.AccountBalance.Raw, Apiture.AccountBalance> =
+    core.serialization.object({
+        id: core.serialization.lazy(async () => (await import("../../..")).ReadOnlyResourceId),
+        available: core.serialization.lazy(async () => (await import("../../..")).CreditOrDebitValue).optional(),
+        current: core.serialization.lazy(async () => (await import("../../..")).CreditOrDebitValue).optional(),
+        updatedAt: core.serialization.lazy(async () => (await import("../../..")).ReadOnlyTimestamp).optional(),
+        currentWithPending: core.serialization
+            .lazy(async () => (await import("../../..")).CreditOrDebitValue)
+            .optional(),
+        incomplete: core.serialization.boolean(),
+    });
 
 export declare namespace AccountBalance {
     interface Raw {

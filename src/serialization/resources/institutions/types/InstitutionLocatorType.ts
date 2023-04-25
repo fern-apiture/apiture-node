@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
 export const InstitutionLocatorType: core.serialization.Schema<
     serializers.InstitutionLocatorType.Raw,
-    ApitureApi.InstitutionLocatorType
+    Apiture.InstitutionLocatorType
 > = core.serialization.enum_(["abaRoutingNumber", "swiftBicCode", "ibanAccountNumber"]);
 
 export declare namespace InstitutionLocatorType {

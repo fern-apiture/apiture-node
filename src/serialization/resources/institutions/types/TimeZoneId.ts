@@ -3,10 +3,10 @@
  */
 
 import * as serializers from "../../..";
-import { ApitureApi } from "@fern-api/apiture";
+import { Apiture } from "@fern-api/apiture";
 import * as core from "../../../../core";
 
-export const TimeZoneId: core.serialization.Schema<serializers.TimeZoneId.Raw, ApitureApi.TimeZoneId> =
+export const TimeZoneId: core.serialization.Schema<serializers.TimeZoneId.Raw, Apiture.TimeZoneId> =
     core.serialization.string();
 
 export declare namespace TimeZoneId {
