@@ -24,6 +24,22 @@ const account = await apiture.accounts.getAccount('accountId');
 console.log(account.maskedNumber);
 ```
 
+## Handling errors
+
+When the API returns a non-success status code (4xx or 5xx response), a subclass of [FlatfileError](https://github.com/fern-flatfile/flatfile-node/blob/main/src/errors/FlatfileError.ts) will be thrown:
+
+```ts
+try {
+   await apiture.accounts.getAccount('accountId');
+} catch (err) {
+  if (err instanceof ApitureError) {
+    console.log(err.statusCode);
+    console.log(err.message);
+    console.log(err.body);
+  }
+}
+```
+
 ## Beta status
 
 This SDK is in beta, and there may be breaking changes between versions without a major version update. Therefore, we recommend pinning the package version to a specific version in your package.json file. This way, you can install the same version each time without breaking changes unless you are intentionally looking for the latest version.
