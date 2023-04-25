@@ -26,7 +26,7 @@ console.log(account.maskedNumber);
 
 ## Handling errors
 
-When the API returns a non-success status code (4xx or 5xx response), a subclass of [FlatfileError](https://github.com/fern-flatfile/flatfile-node/blob/main/src/errors/FlatfileError.ts) will be thrown:
+When the API returns a non-success status code (4xx or 5xx response), a subclass of [ApitureError](https://github.com/fern-apiture/apiture-node/blob/main/src/errors/ApitureError.ts) will be thrown:
 
 ```ts
 try {
