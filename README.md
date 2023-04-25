@@ -11,12 +11,17 @@ API reference documentation is available [here](https://developer.apiture.com/do
 
 ## Usage
 
-[![Try it out](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](TODO)
+[![Try it out](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/typescript-example-using-sdk-built-with-fern-n2eqby?file=app.ts)
 
 ```typescript
-import { TODO } from "TODO";
+const apiture = new ApitureClient({
+  acessToken: 'my-access-token',
+  apiKey: 'my-api-key', // optional
+});
 
-const TODO
+const account = await apiture.accounts.getAccount('accountId');
+
+console.log(account.maskedNumber);
 ```
 
 ## Beta status
