@@ -1,5 +1,6 @@
 import { BaseSchema, MaybeValid, Schema, SchemaType, ValidationError } from "../../Schema";
 import { MaybePromise } from "../../utils/MaybePromise";
+import { maybeSkipValidation } from "../../utils/maybeSkipValidation";
 import { getSchemaUtils } from "../schema-utils";
 import { inferParsedUnidiscriminatedUnionSchema, inferRawUnidiscriminatedUnionSchema } from "./types";
 
@@ -26,7 +27,7 @@ export function undiscriminatedUnion<Schemas extends [Schema<any, any>, ...Schem
     };
 
     return {
-        ...baseSchema,
+        ...maybeSkipValidation(baseSchema),
         ...getSchemaUtils(baseSchema),
     };
 }
@@ -36,12 +37,17 @@ async function validateAndTransformUndiscriminatedUnion<Transformed>(
     schemas: Schema<any, any>[]
 ): Promise<MaybeValid<Transformed>> {
     const errors: ValidationError[] = [];
-    for (const schema of schemas) {
+    for (const [index, schema] of schemas.entries()) {
         const transformed = await transform(schema);
         if (transformed.ok) {
             return transformed;
-        } else if (errors.length === 0) {
-            errors.push(...transformed.errors);
+        } else {
+            for (const error of errors) {
+                errors.push({
+                    path: error.path,
+                    message: `[Variant ${index}] ${error.message}`,
+                });
+            }
         }
     }
 

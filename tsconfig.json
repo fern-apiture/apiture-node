@@ -11,12 +11,7 @@
         "noUnusedParameters": true,
         "outDir": "dist",
         "rootDir": "src",
-        "baseUrl": "src",
-        "paths": {
-            "@fern-api/apiture": [
-                "."
-            ]
-        }
+        "baseUrl": "src"
     },
     "include": [
         "src"

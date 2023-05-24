@@ -1,4 +1,3 @@
-export { ListAccountsRequest } from "./ListAccountsRequest";
-export { ListAccountBalancesRequest } from "./ListAccountBalancesRequest";
-export { ListEligibleAchAccountsRequest } from "./ListEligibleAchAccountsRequest";
-export { ListEligibleOverdraftAccountsRequest } from "./ListEligibleOverdraftAccountsRequest";
+export { AccountsListAccountsRequest } from "./AccountsListAccountsRequest";
+export { AccountsListAccountBalancesRequest } from "./AccountsListAccountBalancesRequest";
+export { AccountsListEligibleAchAccountsRequest } from "./AccountsListEligibleAchAccountsRequest";

@@ -1,4 +1,4 @@
-export { LookUpInstitutionByLocatorRequest } from "./LookUpInstitutionByLocatorRequest";
-export { ListTransferScheduleRequest } from "./ListTransferScheduleRequest";
-export { GetCutoffTimesRequest } from "./GetCutoffTimesRequest";
-export { GetTransferDateRestrictionsRequest } from "./GetTransferDateRestrictionsRequest";
+export { InstitutionsLookUpInstitutionByLocatorRequest } from "./InstitutionsLookUpInstitutionByLocatorRequest";
+export { InstitutionsListTransferScheduleRequest } from "./InstitutionsListTransferScheduleRequest";
+export { InstitutionsGetCutoffTimesRequest } from "./InstitutionsGetCutoffTimesRequest";
+export { InstitutionsGetTransferDateRestrictionsRequest } from "./InstitutionsGetTransferDateRestrictionsRequest";

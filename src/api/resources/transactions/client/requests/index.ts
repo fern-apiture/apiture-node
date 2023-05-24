@@ -1,2 +1,1 @@
-export { ListTransactionsRequest } from "./ListTransactionsRequest";
-export { ListTransactionCategoriesRequest } from "./ListTransactionCategoriesRequest";
+export { TransactionsListTransactionsRequest } from "./TransactionsListTransactionsRequest";

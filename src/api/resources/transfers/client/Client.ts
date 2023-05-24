@@ -4,7 +4,7 @@
 
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { Apiture } from "@fern-api/apiture";
+import * as ApitureBanking from "../../..";
 import URLSearchParams from "@ungap/url-search-params";
 import urlJoin from "url-join";
 import * as serializers from "../../../../serialization";
@@ -12,9 +12,8 @@ import * as errors from "../../../../errors";
 
 export declare namespace Transfers {
     interface Options {
-        environment?: environments.ApitureEnvironment | string;
-        acessToken: core.Supplier<string>;
-        apiKey?: core.Supplier<string | undefined>;
+        environment?: environments.ApitureBankingEnvironment | string;
+        apiKey: core.Supplier<string>;
     }
 }
 
@@ -23,12 +22,14 @@ export class Transfers {
 
     /**
      * Return a [paginated](https://dx.apiture.com/docs/api-documentation/concepts/pagination) collection of transfers. The [nextPage_url](https://dx.apiture.com/docs/api-documentation/concepts/links) in the response is a pagination link.
-     * @throws {Apiture.BadRequest}
-     * @throws {Apiture.Unauthorized}
-     * @throws {Apiture.Forbidden}
-     * @throws {Apiture.UnprocessableEntity}
+     * @throws {@link ApitureBanking.BadRequestError}
+     * @throws {@link ApitureBanking.UnauthorizedError}
+     * @throws {@link ApitureBanking.ForbiddenError}
+     * @throws {@link ApitureBanking.UnprocessableEntityError}
      */
-    public async listTransfers(request: Apiture.ListTransfersRequest = {}): Promise<Apiture.Transfers> {
+    public async listTransfers(
+        request: ApitureBanking.TransfersListTransfersRequest = {}
+    ): Promise<ApitureBanking.Transfers> {
         const { scheduledOn, debitsOn, creditsOn, historical, start, limit } = request;
         const _queryParams = new URLSearchParams();
         if (scheduledOn != null) {
@@ -56,59 +57,67 @@ export class Transfers {
         }
 
         const _response = await core.fetcher({
-            url: urlJoin(this.options.environment ?? environments.ApitureEnvironment.Production, "/transfers"),
+            url: urlJoin(this.options.environment ?? environments.ApitureBankingEnvironment.Default, "transfers"),
             method: "GET",
             headers: {
-                Authorization: await this._getAuthorizationHeader(),
                 "API-Key": await core.Supplier.get(this.options.apiKey),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@fern-api/apiture",
+                "X-Fern-SDK-Version": "0.0.6",
             },
             contentType: "application/json",
             queryParameters: _queryParams,
+            timeoutMs: 60000,
         });
         if (_response.ok) {
             return await serializers.Transfers.parseOrThrow(_response.body, {
                 unrecognizedObjectKeys: "passthrough",
                 allowUnrecognizedUnionMembers: true,
                 allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Apiture.BadRequest(
+                    throw new ApitureBanking.BadRequestError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 case 401:
-                    throw new Apiture.Unauthorized(
+                    throw new ApitureBanking.UnauthorizedError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 case 403:
-                    throw new Apiture.Forbidden(
+                    throw new ApitureBanking.ForbiddenError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 case 422:
-                    throw new Apiture.UnprocessableEntity(
+                    throw new ApitureBanking.UnprocessableEntityError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 default:
-                    throw new errors.ApitureError({
+                    throw new errors.ApitureBankingError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
                     });
@@ -117,79 +126,93 @@ export class Transfers {
 
         switch (_response.error.reason) {
             case "non-json":
-                throw new errors.ApitureError({
+                throw new errors.ApitureBankingError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.ApitureTimeoutError();
+                throw new errors.ApitureBankingTimeoutError();
             case "unknown":
-                throw new errors.ApitureError({
+                throw new errors.ApitureBankingError({
                     message: _response.error.errorMessage,
                 });
         }
     }
 
     /**
-     * Create a new transfer within the transfers collection. If all the necessary properties are set, the transfer is queued for processing. If the request omits the `schedule.scheduledOn` date, the transfer remains pending/unscheduled until the user sets it via the [`patchTransfer`](#op-patchTransfer) operation. Note: This operation requires an identity challenge if the financial institution requires the user to proove their identity for some types of transfers. See the "Challenges API".
-     * @throws {Apiture.BadRequest}
-     * @throws {Apiture.Unauthorized}
-     * @throws {Apiture.Forbidden}
-     * @throws {Apiture.UnprocessableEntity}
+     * Create a new transfer within the transfers collection. If all the necessary properties are set, the transfer is queued for processing. If the request omits the `schedule.scheduledOn` date, the transfer remains pending/unscheduled until the user sets it via the [`patchTransfer`](#op-patchTransfer) operation.
+     *
+     * Note: This operation requires an identity challenge if the financial institution requires the user to proove their identity for some types of transfers. See the "Challenges API".
+     * @throws {@link ApitureBanking.BadRequestError}
+     * @throws {@link ApitureBanking.UnauthorizedError}
+     * @throws {@link ApitureBanking.ForbiddenError}
+     * @throws {@link ApitureBanking.UnprocessableEntityError}
      */
-    public async createTransfer(request: Apiture.NewTransfer = {}): Promise<void> {
+    public async createTransfer(request: ApitureBanking.NewTransfer): Promise<ApitureBanking.Transfer> {
         const { challenge, ..._body } = request;
         const _response = await core.fetcher({
-            url: urlJoin(this.options.environment ?? environments.ApitureEnvironment.Production, "/transfers"),
+            url: urlJoin(this.options.environment ?? environments.ApitureBankingEnvironment.Default, "transfers"),
             method: "POST",
             headers: {
-                Authorization: await this._getAuthorizationHeader(),
                 "API-Key": await core.Supplier.get(this.options.apiKey),
-                Challenge: challenge,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@fern-api/apiture",
+                "X-Fern-SDK-Version": "0.0.6",
+                Challenge: challenge != null ? challenge : undefined,
             },
             contentType: "application/json",
             body: await serializers.NewTransfer.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: 60000,
         });
         if (_response.ok) {
-            return;
+            return await serializers.Transfer.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
+            });
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Apiture.BadRequest(
+                    throw new ApitureBanking.BadRequestError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 case 401:
-                    throw new Apiture.Unauthorized(
+                    throw new ApitureBanking.UnauthorizedError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 case 403:
-                    throw new Apiture.Forbidden(
+                    throw new ApitureBanking.ForbiddenError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 case 422:
-                    throw new Apiture.UnprocessableEntity(
+                    throw new ApitureBanking.UnprocessableEntityError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 default:
-                    throw new errors.ApitureError({
+                    throw new errors.ApitureBankingError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
                     });
@@ -198,14 +221,14 @@ export class Transfers {
 
         switch (_response.error.reason) {
             case "non-json":
-                throw new errors.ApitureError({
+                throw new errors.ApitureBankingError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.ApitureTimeoutError();
+                throw new errors.ApitureBankingTimeoutError();
             case "unknown":
-                throw new errors.ApitureError({
+                throw new errors.ApitureBankingError({
                     message: _response.error.errorMessage,
                 });
         }
@@ -213,59 +236,66 @@ export class Transfers {
 
     /**
      * Return the JSON representation of this transfer resource.
-     * @throws {Apiture.Unauthorized}
-     * @throws {Apiture.Forbidden}
-     * @throws {Apiture.NotFound}
+     * @throws {@link ApitureBanking.UnauthorizedError}
+     * @throws {@link ApitureBanking.ForbiddenError}
+     * @throws {@link ApitureBanking.NotFoundError}
      */
-    public async getTransfer(transferId: string): Promise<Apiture.Transfer> {
+    public async getTransfer(transferId: ApitureBanking.ResourceId): Promise<ApitureBanking.Transfer> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.ApitureEnvironment.Production,
-                `/transfers/${transferId}`
+                this.options.environment ?? environments.ApitureBankingEnvironment.Default,
+                `transfers/${await serializers.ResourceId.jsonOrThrow(transferId)}`
             ),
             method: "GET",
             headers: {
-                Authorization: await this._getAuthorizationHeader(),
                 "API-Key": await core.Supplier.get(this.options.apiKey),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@fern-api/apiture",
+                "X-Fern-SDK-Version": "0.0.6",
             },
             contentType: "application/json",
+            timeoutMs: 60000,
         });
         if (_response.ok) {
             return await serializers.Transfer.parseOrThrow(_response.body, {
                 unrecognizedObjectKeys: "passthrough",
                 allowUnrecognizedUnionMembers: true,
                 allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new Apiture.Unauthorized(
+                    throw new ApitureBanking.UnauthorizedError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 case 403:
-                    throw new Apiture.Forbidden(
+                    throw new ApitureBanking.ForbiddenError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 case 404:
-                    throw new Apiture.NotFound(
+                    throw new ApitureBanking.NotFoundError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 default:
-                    throw new errors.ApitureError({
+                    throw new errors.ApitureBankingError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
                     });
@@ -274,14 +304,125 @@ export class Transfers {
 
         switch (_response.error.reason) {
             case "non-json":
-                throw new errors.ApitureError({
+                throw new errors.ApitureBankingError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.ApitureTimeoutError();
+                throw new errors.ApitureBankingTimeoutError();
             case "unknown":
-                throw new errors.ApitureError({
+                throw new errors.ApitureBankingError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * Perform a partial update of this transfer as per [JSON Merge Patch](https://datatracker.ietf.org/doc/html/rfc7396) format and processing rules. Only fields in the request body are updated on the resource; fields which are omitted are not updated.
+     *
+     * Note: This operation requires an identity challenge if the financial institution requires the user to prove their identity for some types of transfers. See the "Challenges API".
+     * @throws {@link ApitureBanking.BadRequestError}
+     * @throws {@link ApitureBanking.UnauthorizedError}
+     * @throws {@link ApitureBanking.ForbiddenError}
+     * @throws {@link ApitureBanking.NotFoundError}
+     * @throws {@link ApitureBanking.UnprocessableEntityError}
+     */
+    public async patchTransfer(
+        transferId: ApitureBanking.ResourceId,
+        request: ApitureBanking.TransferPatch = {}
+    ): Promise<ApitureBanking.Transfer> {
+        const { challenge, ..._body } = request;
+        const _response = await core.fetcher({
+            url: urlJoin(
+                this.options.environment ?? environments.ApitureBankingEnvironment.Default,
+                `transfers/${await serializers.ResourceId.jsonOrThrow(transferId)}`
+            ),
+            method: "PATCH",
+            headers: {
+                "API-Key": await core.Supplier.get(this.options.apiKey),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@fern-api/apiture",
+                "X-Fern-SDK-Version": "0.0.6",
+                Challenge: challenge != null ? challenge : undefined,
+            },
+            contentType: "application/json",
+            body: await serializers.TransferPatch.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: 60000,
+        });
+        if (_response.ok) {
+            return await serializers.Transfer.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApitureBanking.BadRequestError(
+                        await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 401:
+                    throw new ApitureBanking.UnauthorizedError(
+                        await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 403:
+                    throw new ApitureBanking.ForbiddenError(
+                        await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 404:
+                    throw new ApitureBanking.NotFoundError(
+                        await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 422:
+                    throw new ApitureBanking.UnprocessableEntityError(
+                        await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                default:
+                    throw new errors.ApitureBankingError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ApitureBankingError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.ApitureBankingTimeoutError();
+            case "unknown":
+                throw new errors.ApitureBankingError({
                     message: _response.error.errorMessage,
                 });
         }
@@ -289,22 +430,26 @@ export class Transfers {
 
     /**
      * Delete this transfer resource and any resources that are owned by it. Only transfers that have not been processed may be deleted.
-     * @throws {Apiture.BadRequest}
-     * @throws {Apiture.Unauthorized}
-     * @throws {Apiture.NotFound}
+     * @throws {@link ApitureBanking.UnauthorizedError}
+     * @throws {@link ApitureBanking.ForbiddenError}
+     * @throws {@link ApitureBanking.NotFoundError}
+     * @throws {@link ApitureBanking.ConflictError}
      */
-    public async deleteTransfer(transferId: string): Promise<void> {
+    public async deleteTransfer(transferId: ApitureBanking.ResourceId): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.ApitureEnvironment.Production,
-                `/transfers/${transferId}`
+                this.options.environment ?? environments.ApitureBankingEnvironment.Default,
+                `transfers/${await serializers.ResourceId.jsonOrThrow(transferId)}`
             ),
             method: "DELETE",
             headers: {
-                Authorization: await this._getAuthorizationHeader(),
                 "API-Key": await core.Supplier.get(this.options.apiKey),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@fern-api/apiture",
+                "X-Fern-SDK-Version": "0.0.6",
             },
             contentType: "application/json",
+            timeoutMs: 60000,
         });
         if (_response.ok) {
             return;
@@ -312,129 +457,44 @@ export class Transfers {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
-                case 400:
-                    throw new Apiture.BadRequest(
-                        await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                        })
-                    );
                 case 401:
-                    throw new Apiture.Unauthorized(
+                    throw new ApitureBanking.UnauthorizedError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
-                        })
-                    );
-                case 404:
-                    throw new Apiture.NotFound(
-                        await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                        })
-                    );
-                default:
-                    throw new errors.ApitureError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                    });
-            }
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.ApitureError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                });
-            case "timeout":
-                throw new errors.ApitureTimeoutError();
-            case "unknown":
-                throw new errors.ApitureError({
-                    message: _response.error.errorMessage,
-                });
-        }
-    }
-
-    /**
-     * Perform a partial update of this transfer as per [JSON Merge Patch](https://datatracker.ietf.org/doc/html/rfc7396) format and processing rules. Only fields in the request body are updated on the resource; fields which are omitted are not updated. Note: This operation requires an identity challenge if the financial institution requires the user to prove their identity for some types of transfers. See the "Challenges API".
-     * @throws {Apiture.BadRequest}
-     * @throws {Apiture.Unauthorized}
-     * @throws {Apiture.Forbidden}
-     * @throws {Apiture.NotFound}
-     * @throws {Apiture.UnprocessableEntity}
-     */
-    public async patchTransfer(transferId: string, request: Apiture.TransferPatch = {}): Promise<Apiture.Transfer> {
-        const { challenge, ..._body } = request;
-        const _response = await core.fetcher({
-            url: urlJoin(
-                this.options.environment ?? environments.ApitureEnvironment.Production,
-                `/transfers/${transferId}`
-            ),
-            method: "PATCH",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "API-Key": await core.Supplier.get(this.options.apiKey),
-                Challenge: challenge,
-            },
-            contentType: "application/json",
-            body: await serializers.TransferPatch.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
-        });
-        if (_response.ok) {
-            return await serializers.Transfer.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-            });
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Apiture.BadRequest(
-                        await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                        })
-                    );
-                case 401:
-                    throw new Apiture.Unauthorized(
-                        await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 case 403:
-                    throw new Apiture.Forbidden(
+                    throw new ApitureBanking.ForbiddenError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 case 404:
-                    throw new Apiture.NotFound(
+                    throw new ApitureBanking.NotFoundError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
-                case 422:
-                    throw new Apiture.UnprocessableEntity(
+                case 409:
+                    throw new ApitureBanking.ConflictError(
                         await serializers.ProblemResponse.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
                         })
                     );
                 default:
-                    throw new errors.ApitureError({
+                    throw new errors.ApitureBankingError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
                     });
@@ -443,25 +503,16 @@ export class Transfers {
 
         switch (_response.error.reason) {
             case "non-json":
-                throw new errors.ApitureError({
+                throw new errors.ApitureBankingError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.ApitureTimeoutError();
+                throw new errors.ApitureBankingTimeoutError();
             case "unknown":
-                throw new errors.ApitureError({
+                throw new errors.ApitureBankingError({
                     message: _response.error.errorMessage,
                 });
         }
-    }
-
-    protected async _getAuthorizationHeader() {
-        const value = await core.Supplier.get(this.options.acessToken);
-        if (value != null) {
-            return `Bearer ${value}`;
-        }
-
-        return undefined;
     }
 }

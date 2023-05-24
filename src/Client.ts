@@ -5,25 +5,46 @@
 import * as environments from "./environments";
 import * as core from "./core";
 import { Accounts } from "./api/resources/accounts/client/Client";
+import { AccountJointOwners } from "./api/resources/accountJointOwners/client/Client";
+import { OverdraftProtection } from "./api/resources/overdraftProtection/client/Client";
+import { JointOwners } from "./api/resources/jointOwners/client/Client";
 import { Institutions } from "./api/resources/institutions/client/Client";
 import { Transactions } from "./api/resources/transactions/client/Client";
+import { TransactionCategories } from "./api/resources/transactionCategories/client/Client";
 import { Transfers } from "./api/resources/transfers/client/Client";
 
-export declare namespace ApitureClient {
+export declare namespace ApitureBankingClient {
     interface Options {
-        environment?: environments.ApitureEnvironment | string;
-        acessToken: core.Supplier<string>;
-        apiKey?: core.Supplier<string | undefined>;
+        environment?: environments.ApitureBankingEnvironment | string;
+        apiKey: core.Supplier<string>;
     }
 }
 
-export class ApitureClient {
-    constructor(protected readonly options: ApitureClient.Options) {}
+export class ApitureBankingClient {
+    constructor(protected readonly options: ApitureBankingClient.Options) {}
 
     protected _accounts: Accounts | undefined;
 
     public get accounts(): Accounts {
         return (this._accounts ??= new Accounts(this.options));
+    }
+
+    protected _accountJointOwners: AccountJointOwners | undefined;
+
+    public get accountJointOwners(): AccountJointOwners {
+        return (this._accountJointOwners ??= new AccountJointOwners(this.options));
+    }
+
+    protected _overdraftProtection: OverdraftProtection | undefined;
+
+    public get overdraftProtection(): OverdraftProtection {
+        return (this._overdraftProtection ??= new OverdraftProtection(this.options));
+    }
+
+    protected _jointOwners: JointOwners | undefined;
+
+    public get jointOwners(): JointOwners {
+        return (this._jointOwners ??= new JointOwners(this.options));
     }
 
     protected _institutions: Institutions | undefined;
@@ -36,6 +57,12 @@ export class ApitureClient {
 
     public get transactions(): Transactions {
         return (this._transactions ??= new Transactions(this.options));
+    }
+
+    protected _transactionCategories: TransactionCategories | undefined;
+
+    public get transactionCategories(): TransactionCategories {
+        return (this._transactionCategories ??= new TransactionCategories(this.options));
     }
 
     protected _transfers: Transfers | undefined;

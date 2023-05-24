@@ -3,12 +3,12 @@
  */
 
 import * as serializers from "../../../..";
-import { Apiture } from "@fern-api/apiture";
+import * as ApitureBanking from "../../../../../api";
 import * as core from "../../../../../core";
 
 export const TransferPatch: core.serialization.Schema<
     serializers.TransferPatch.Raw,
-    Omit<Apiture.TransferPatch, "challenge">
+    Omit<ApitureBanking.TransferPatch, "challenge">
 > = core.serialization
     .object({
         schedule: core.serialization.lazyObject(async () => (await import("../../../..")).TransferSchedule).optional(),

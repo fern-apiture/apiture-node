@@ -1,2 +1,2 @@
-export { ApitureError } from "./ApitureError";
-export { ApitureTimeoutError } from "./ApitureTimeoutError";
+export { ApitureBankingError } from "./ApitureBankingError";
+export { ApitureBankingTimeoutError } from "./ApitureBankingTimeoutError";

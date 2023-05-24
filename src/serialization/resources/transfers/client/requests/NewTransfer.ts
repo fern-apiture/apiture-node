@@ -3,21 +3,21 @@
  */
 
 import * as serializers from "../../../..";
-import { Apiture } from "@fern-api/apiture";
+import * as ApitureBanking from "../../../../../api";
 import * as core from "../../../../../core";
 
 export const NewTransfer: core.serialization.Schema<
     serializers.NewTransfer.Raw,
-    Omit<Apiture.NewTransfer, "challenge">
+    Omit<ApitureBanking.NewTransfer, "challenge">
 > = core.serialization
     .object({
-        schedule: core.serialization.lazyObject(async () => (await import("../../../..")).TransferSchedule).optional(),
+        schedule: core.serialization.lazyObject(async () => (await import("../../../..")).TransferSchedule),
     })
     .extend(core.serialization.lazyObject(async () => (await import("../../../..")).AbstractBody))
     .extend(core.serialization.lazyObject(async () => (await import("../../../..")).TransferFields));
 
 export declare namespace NewTransfer {
     interface Raw extends serializers.AbstractBody.Raw, serializers.TransferFields.Raw {
-        schedule?: serializers.TransferSchedule.Raw | null;
+        schedule: serializers.TransferSchedule.Raw;
     }
 }
