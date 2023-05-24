@@ -14,7 +14,7 @@ API reference documentation is available [here](https://developer.apiture.com/do
 [![Try it out](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/typescript-example-using-sdk-built-with-fern-n2eqby?file=app.ts)
 
 ```typescript
-const apiture = new ApitureClient({
+const apiture = new ApitureBankingClient({
   acessToken: 'my-access-token',
   apiKey: 'my-api-key', // optional
 });
